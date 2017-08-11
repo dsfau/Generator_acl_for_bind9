@@ -1,6 +1,7 @@
 import requests
 import re
-debug=True
+import argparse
+
 countrys={
 "AF":["DZ","AO","BJ","BW","BF","BI","CM","CV","CF","TD","KM","CG","CD","CI","DJ","EG","GQ","ER","ET","GA","GM","GH","GN","GW","KE","LS","LR","LY","MG","MW","ML","MR","MU","YT","MA","MZ","NA","NE","NG","RE","RW","EH","SH","ST","SN","SC","SL","SO","ZA","SS","SD","SZ","TZ","TG","TN","UG","ZM","ZW"],
 "AS":["AF","AM","AZ","BH","BD","BT","BN","KH","CN","CX","CC","CY","GE","HK","IN","ID","IR","IQ","IL","JP","JO","KZ","KW","KG","LA","LB","MO","MY","MV","FM","MN","ME","MM","NP","KP","OM","PK","PS","PH","QA","SA","RS","SG","KR","LK","SY","TW","TJ","TH","TM","AE","UZ","VN","YE"],
@@ -101,4 +102,15 @@ def generate_acl_file(acl_dic,path="./geo_acl.conf"):
         acl_file.write('};\n')
     acl_file.close()
 
-generate_acl_file(path="./geo_acl_continent.conf", acl_dic=generate_acl_dic_by_continent())
+if __name__=="__main__":
+    parser = argparse.ArgumentParser(description='Whit this tool you can generate files for use as acl in bind9 for example for configurate a CDN')
+    parser.add_argument('-d', action="store_true", default=False, help='Debug mode', dest='debug')
+    parser.add_argument('--country', action="store_true", help='Acl by country', dest='country')
+    parser.add_argument('--continent', action="store_true", help='Acl by continent', dest='continent')
+    parser.add_argument('-p', action='store', dest='path',help='Path to save the conf file',default="./geo_acl.conf")
+    args=parser.parse_args()
+    debug = args.debug
+    if args.country:
+        generate_acl_file(acl_dic=generate_acl_dic_by_country(), path=args.path)
+    if args.continent:
+        generate_acl_file(path=args.path, acl_dic=generate_acl_dic_by_continent())
