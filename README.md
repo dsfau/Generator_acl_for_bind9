@@ -1,4 +1,31 @@
 # Generator_acl_for_bind9
+
+Help:
+~~~
+usage: bind_zones.py [-h] [-d] [--country] [--continent] [-p PATH]
+
+Whit this tool you can generate files for use as acl in bind9 for example for
+configurate a CDN
+
+optional arguments:
+  -h, --help   show this help message and exit
+  -d           Debug mode
+  --country    Acl by country
+  --continent  Acl by continent
+  -p PATH      Path to save the conf file
+
+~~~
+
+Acl's by countrys:
+
+`$: python3 bind_zones.py -p acl_geo.conf --country -d`
+
+Acl's by continents:
+
+`$: python3 bind_zones.py -p acl_geo.conf --continent -d`
+
+The parameter '-d' is for debug mode
+
 ## Example of use in named.conf
 
 ~~~~
